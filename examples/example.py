@@ -1,4 +1,4 @@
-from src.wealthsimple import wealthsimple
+from src import wealthsimple
 
 AIR_CANADA_SECURITY_ID = 'sec-s-6e73535b8e474d8689064c4c9fee326a'
 AIR_CANADA_TICKER = 'AC'
@@ -14,7 +14,7 @@ def get_login_credentials():
     return email, password, auth_secret_key
 
 
-if __name__ == '__main__':
+def main():
     ws_email, ws_password, ws_auth_secret_key = get_login_credentials()
 
     ws = wealthsimple.WS(ws_email, ws_password, ws_auth_secret_key)
@@ -82,3 +82,7 @@ if __name__ == '__main__':
 
     # Refresh authentication token
     ws.refresh_token()
+
+
+if __name__ == '__main__':
+    main()
