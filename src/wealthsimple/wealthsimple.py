@@ -179,13 +179,19 @@ class WS:
         res = self.session.get(self.baseURL + "account/positions?account_id={}".format(account_id)).json()
         return res["results"]
 
-    def get_activities(self) -> list:
+    def get_activities(self, activity_type: str = None) -> list:
         """
-        Get trade activity
-        :return: list of trade activity objects
+        Get user activity
+        :param activity_type: The type of activity to filter by -> [
+        dividend, buy, sell, deposit, convert_funds, withdrawal, institutional_transfer, internal_transfer,
+        subscription_payment, refund, referral_bonus, affiliate, asset_movement
+        ]
+        :return: list of activity objects
         """
-
-        res = self.session.get(self.baseURL + "account/activities").json()
+        if activity_type:
+            res = self.session.get(self.baseURL + "account/activities?type={}".format(activity_type)).json()
+        else:
+            res = self.session.get(self.baseURL + "account/activities").json()
         return res["results"]
 
     def get_me(self) -> dict:

@@ -48,13 +48,17 @@ if __name__ == '__main__':
     security = ws.get_security_from_ticker(AIR_CANADA_TICKER)
     print("Security from Ticker: ", security)
 
-    # Get Positions
+    # Get positions
     positions = ws.get_positions(first_account_id)
     print("Positions: ", positions)
 
-    # Get activity
+    # Get all activity
     activity = ws.get_activities()
     print("Activity: ", activity)
+
+    # Get activity by activity type
+    dividends = ws.get_activities(activity_type='dividend')
+    print("Dividends: ", dividends)
 
     # Get Wealthsimple user object
     user = ws.get_me()
