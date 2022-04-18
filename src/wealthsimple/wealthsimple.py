@@ -21,6 +21,7 @@ class WS:
         :param password: password for Wealthsimple login
         :param auth_secret_key: authenticator secret key for generating the two-factor authentication tokens
         """
+
         self.baseURL = "https://trade-service.wealthsimple.com/"
         self.session = requests.session()
         self.login(email, password, auth_secret_key)
@@ -32,6 +33,7 @@ class WS:
         :param password: password for Wealthsimple login
         :param auth_secret_key: authenticator secret key for generating the two-factor authentication tokens
         """
+
         if not (email and password and auth_secret_key):
             raise Exception("Missing login credentials")
 
@@ -49,6 +51,7 @@ class WS:
         Refresh access token for future requests
         :return: response from the refresh token request
         """
+
         x_access_token = self.session.headers.get("Authorization")
         req_body = {"refresh_token": x_access_token}
         return self.session.post(self.baseURL + "auth/refresh", json=req_body).json()
@@ -58,6 +61,7 @@ class WS:
         Get Wealthsimple accounts associated with login credentials
         :return: List of Wealthsimple account objects
         """
+
         res = self.session.get(self.baseURL + "account/list").json()
         return res["results"]
 
@@ -66,6 +70,7 @@ class WS:
         Get Wealthsimple account ids associated with login credentials
         :return: List of Wealthsimple account ids
         """
+
         user_accounts = self.get_accounts()
         return [account["id"] for account in user_accounts]
 
@@ -75,6 +80,7 @@ class WS:
         :param account_id: The id of the account to fetch
         :return: Wealthsimple account object
         """
+
         user_accounts = self.get_accounts()
         for account in user_accounts:
             if account["id"] == account_id:
@@ -88,6 +94,7 @@ class WS:
         :param time: The time interval to return -> [1d, 1w, 1m, 3m, 1y, all]
         :return: Wealthsimple account history object associated with request
         """
+
         res = self.session.get(self.baseURL + "account/history/{}?account_id={}".format(time, account_id)).json()
         if "error" in res:
             if res["error"] == "Record not found":
@@ -100,6 +107,7 @@ class WS:
         :param symbol: Security symbol to filter orders by
         :return: List of Wealthsimple order objects
         """
+
         res = self.session.get(self.baseURL + "orders").json()
         # Check if order must be filtered:
         if symbol:
@@ -116,6 +124,7 @@ class WS:
         :param purchase_value: The dollar amount in the users local currency to be used to buy fractional shares
         :return: The response from the buy request
         """
+
         order_type = "buy_value"
         order_sub_type = "fractional"
         time_in_force = "day"
@@ -136,6 +145,7 @@ class WS:
         :param order_id: id of the order to be cancelled
         :return: Response from the cancel request
         """
+
         res = self.session.delete(self.baseURL + "orders/{}".format(order_id)).json()
         return res
 
@@ -145,15 +155,17 @@ class WS:
         :param security_id: The id of the security to fetch
         :return: security information object
         """
+
         res = self.session.get(self.baseURL + "securities/{}".format(security_id)).json()
         return res
 
-    def get_securities_from_ticker(self, symbol: str) -> list:
+    def get_security_from_ticker(self, symbol: str) -> list:
         """
         Get information about a security given its ticker symbol
         :param symbol: The ticker symbol of security
         :return: security information object
         """
+
         res = self.session.get(self.baseURL + "securities?query={}".format(symbol)).json()
         return res["results"]
 
@@ -163,7 +175,8 @@ class WS:
         :param account_id: The id of the account to fetch
         :return: list of positions
         """
-        res = self.session.get(self.baseURL + "account/posistions?account_id={}".format(account_id)).json()
+
+        res = self.session.get(self.baseURL + "account/positions?account_id={}".format(account_id)).json()
         return res["results"]
 
     def get_activities(self) -> list:
@@ -171,6 +184,7 @@ class WS:
         Get trade activity
         :return: list of trade activity objects
         """
+
         res = self.session.get(self.baseURL + "account/activities").json()
         return res["results"]
 
@@ -179,6 +193,7 @@ class WS:
         Get Wealthsimple user object
         :return: user object
         """
+
         return self.session.get(self.baseURL + "me").json()
 
     def get_person(self) -> dict:
@@ -186,6 +201,7 @@ class WS:
         Get Wealthsimple person object
         :return: person object
         """
+
         return self.session.get(self.baseURL + "person").json()
 
     def get_bank_accounts(self) -> list:
@@ -193,6 +209,7 @@ class WS:
         Get bank accounts associated with Wealthsimple account
         :return: list of bank account objects
         """
+
         res = self.session.get(self.baseURL + "bank-accounts").json()
         return res["results"]
 
@@ -201,6 +218,7 @@ class WS:
         Get list of deposits
         :return: list of deposit objects
         """
+
         res = self.session.get(self.baseURL + "deposits").json()
         return res["results"]
 
@@ -209,4 +227,5 @@ class WS:
         Get currency exchange rates
         :return: exchange rates object
         """
+
         return self.session.get(self.baseURL + "forex").json()
