@@ -179,19 +179,24 @@ class WS:
         res = self.session.get(self.baseURL + "account/positions?account_id={}".format(account_id)).json()
         return res["results"]
 
-    def get_activities(self, activity_type: str = None) -> list:
+    def get_activities(self, activity_type: str = None, limit: int = 20, account_id: list = []) -> list:
         """
         Get user activity
         :param activity_type: The type of activity to filter by -> [
         dividend, buy, sell, deposit, convert_funds, withdrawal, institutional_transfer, internal_transfer,
         subscription_payment, refund, referral_bonus, affiliate, asset_movement
         ]
+        :param limit: The number of activities to return
+        :param account_id: The id of the account to fetch, if not specified, activity for all accounts is returned
         :return: list of activity objects
         """
+
         if activity_type:
-            res = self.session.get(self.baseURL + "account/activities?type={}".format(activity_type)).json()
+            res = self.session.get(self.baseURL + "account/activities?limit={}&account_id{}&type={}".format(
+                limit, account_id, activity_type)).json()
         else:
-            res = self.session.get(self.baseURL + "account/activities").json()
+            res = self.session.get(self.baseURL + "account/activities?limit={}&account_id{}".format(
+                limit, account_id)).json()
         return res["results"]
 
     def get_me(self) -> dict:

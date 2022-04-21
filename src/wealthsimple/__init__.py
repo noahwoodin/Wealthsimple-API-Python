@@ -1,1 +1,1 @@
-from .wealthsimple import WS
+from .wealthsimple import WS  # noqa: F401

@@ -21,5 +21,5 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     keywords=["wealthsimple", "trade", "finance", "DRIP", "dividend", "buy", "stocks", "market", "api", "wrapper"],
-    install_requires=["requests", "pyotp"],
+    install_requires=["requests", "pyotp", "certifi"],
 )
