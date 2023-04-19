@@ -1,4 +1,4 @@
-from src import wealthsimple
+import wealthsimple
 
 AIR_CANADA_SECURITY_ID = 'sec-s-6e73535b8e474d8689064c4c9fee326a'
 AIR_CANADA_TICKER = 'AC'
