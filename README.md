@@ -29,7 +29,7 @@ If you already have Google Authentication setup and no longer have this secret k
   
 The Authentication Secret Key is required to prevent needing to manually enter your 2FA code each time you use the API. This allows the wrapper to be used for projects that automate tasks using a scheduler or are triggered by events such as price movements, or world news; something that existing wrappers did not offer.
 ```python
-from src import wealthsimple
+import wealthsimple
 
 email = 'ws_email'
 password = 'ws_password'
